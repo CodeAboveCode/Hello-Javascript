@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Calculator
+    </title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            vertical-align: middle;
+        }
+        h4{
+            font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+            font-size: medium;
+            text-align: center;
+            color: rgb(35, 51, 51);
+            width: 155px;
+        }
+        input{
+            width: 155px;
+            height: 30px;
+            margin: 5px;
+        }
+        button{
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+        }
+    </style>
+    <script>
+        let mstr = "";
+        function pressNumber(p1){
+            mstr+=p1;
+            document.getElementById("result").value = mstr;
+        }
+        function pressCalc(){
+            let numArray = new Array();
+            let st = 0;
+            let opkey = 0;
+            let temp = 1;
+            for(let i = 0;i<mstr.length;i++){
+                if(mstr[i] == '+' || mstr[i] == '-'){
+                    if(opkey > 2) {
+                        temp = ((opkey == 3)?temp*parseInt(mstr.slice(st,i)):temp/parseInt(mstr.slice(st,i)));
+                        numArray.push(temp);
+                    }
+                    else
+                        numArray.push(parseInt(mstr.slice(st,i)));
+                    st = i;
+                    opkey = 1;
+                }
+                else if(mstr[i] == '*' || mstr[i] == '/') {
+                    if(opkey > 2) {
+                        temp = ((opkey == 3)?temp*parseInt(mstr.slice(st,i)):temp/parseInt(mstr.slice(st,i)));
+                    }
+                    else
+                        temp = parseInt(mstr.slice(st,i));
+                    st = i+1;
+                    opkey = mstr[i]=='*'?3:4;
+                }
+                else if(i == mstr.length - 1){
+                    if(opkey > 2) {
+                        temp = ((opkey == 3)?temp*parseInt(mstr.slice(st)):temp/parseInt(mstr.slice(st)));
+                        numArray.push(temp);
+                    }
+                    else
+                        numArray.push(parseInt(mstr.slice(st)));
+                }
+            }
+            let sum = 0;
+            for(let i = 0;i < numArray.length;i++){
+                sum += numArray[i];
+            }
+
+            document.getElementById("result").value = eval(mstr);
+        }
+    </script>
+</head>
+<body>
+<div>
+    <h4>JSCalculator</h4>
+    <input id = "result" type="text" width="100px" readonly>
+    <br>
+    <button onclick="pressNumber(1)">1</button>
+    <button onclick="pressNumber(2)">2</button>
+    <button onclick="pressNumber(3)">3</button>
+    <button onclick="pressNumber('+')">+</button>
+    <br>
+    <button onclick="pressNumber(4)">4</button>
+    <button onclick="pressNumber(5)">5</button>
+    <button onclick="pressNumber(6)">6</button>
+    <button onclick="pressNumber('-')">-</button>
+    <br>
+    <button onclick="pressNumber(7)">7</button>
+    <button onclick="pressNumber(8)">8</button>
+    <button onclick="pressNumber(9)">9</button>
+    <button onclick="pressNumber('*')">*</button>
+    <br>
+    <button onclick="pressNumber(0)">0</button>
+    <button onclick="pressNumber('.')">.</button>
+    <button onclick="pressNumber('/')">/</button>
+    <button onclick="pressCalc()">=</button>
+    <br>
+</div>
+</body>
+</html>
